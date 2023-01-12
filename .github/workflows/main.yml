@@ -1,9 +1,29 @@
-- name: Sync up to AWS CodeCommit Action
-  # You may pin to the exact commit or the version.
-  # uses: youyo/sync-up-to-codecommit-action@378d8fd2e13e8552c333b4462e6099fe6823bf33
-  uses: youyo/sync-up-to-codecommit-action@v1.0.5
-  with:
-    # CodeCommit repository name.
-    repository_name: PoketApi
-    # Region of the CodeCommit repository.
-    aws_region: us-east-1
+name: sync up to codecommit
+
+on:
+  push:
+    tags-ignore:
+      - '*'
+    branches:
+      - '*'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::925522019539:role/BLRoleForPoketRepo        
+          aws-region: us-east-1
+
+      - name: Sync up to CodeCommit
+        uses: youyo/sync-up-to-codecommit-action@v1
+        with:
+          repository_name: PoketApi
+          aws_region: us-east-1
