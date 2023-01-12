@@ -27,7 +27,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Sync up to CodeCommit
-        uses: youyo/sync-up-to-codecommit-action@v1
+        uses: BRAVO68WEB/aws-codecommit-action@v1.0.6
         with:
           repository_name: PoketApi
           aws_region: us-east-1
